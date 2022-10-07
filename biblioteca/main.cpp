@@ -282,6 +282,9 @@ public:
 
                 string d = content[i][2];
                 string h = content[i][4];
+                if (h.size() > 12){
+                    h.pop_back();
+                }
 
                 fstream file2("../csv/" + h, ios::in);
                 if (file2.is_open()) {
