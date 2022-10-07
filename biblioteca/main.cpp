@@ -228,7 +228,7 @@ public:
             user_file << usuarios[i].Nombre() << "," << usuarios[i].Apellido() << "," << usuarios[i].DNI() << ","
                       << usuarios[i].Libro_actual() << "," << usuarios[i].Historial() << endl;
 
-            ofstream history_file("../csv/" + usuarios[i].DNI() + "2.csv", ios::trunc);
+            ofstream history_file("../csv/" + usuarios[i].Historial(), ios::trunc);
             history_file << "Título,ISBN,Categoría" << endl;
             j = 0;
             while (j < historiales.size()) {
@@ -397,13 +397,11 @@ public:
             cout << "Elegir ID de nuevo libro a asignar: ";
             cin >> new_book_id;
             cout << endl;
-
-            guardar_historiales(dni, libros[new_book_id - 1].Libro::Titulo(), libros[new_book_id - 1].Libro::ISBN(),
-                                libros[new_book_id - 1].Libro::Categoria());
             cout << "Asignado nuevo libro: " << endl;
             cout << "Título: " << libros[new_book_id - 1].Libro::Titulo() << endl;
             cout << "ISBN: " << libros[new_book_id - 1].Libro::ISBN() << endl;
             cout << "Categoría: " << libros[new_book_id - 1].Libro::Categoria() << endl << endl;
+            usuarios[id - 1].Usuario::Cambiar_actual(libros[new_book_id - 1].Libro::Titulo());
             libros[new_book_id - 1].Cambiar_prestado("0");
         } else {
             cout << "Usuario ya tiene libro asignado, volviendo al menú." << endl << endl;
@@ -474,9 +472,7 @@ public:
             cout << "ID: " << usuarios[i].Usuario::ID() << endl;
             cout << "Nombre: " << usuarios[i].Usuario::Nombre() << endl;
             cout << "Apellido: " << usuarios[i].Usuario::Apellido() << endl;
-            cout << "DNI: " << usuarios[i].Usuario::DNI() << endl;
-            cout << "Libro en posesion: " << usuarios[i].Usuario::Libro_actual() << endl;
-            cout << "Historial: " << usuarios[i].Usuario::Historial() << endl << endl;
+            cout << "DNI: " << usuarios[i].Usuario::DNI() << endl << endl;
             ++i;
         }
     };
@@ -611,21 +607,33 @@ public:
 
                         cout << "Elige ID usuario a consultar: ";
                         cin >> num;
-                        print_historial_usuarios(num);
+                        if (num > 0 and num < 21){
+                            print_historial_usuarios(num);
+                        } else {
+                            cout << "No existe el usuario con ID " << num << "." << endl << endl;
+                        }
                         break;
                     case 3:
                         print_usuarios();
 
                         cout << "Elige ID usuario a consultar: ";
                         cin >> num;
-                        print_usuario(num);
+                        if (num > 0 and num < 21){
+                            print_usuario(num);
+                        } else {
+                            cout << "No existe el usuario con ID " << num << "." << endl << endl;
+                        }
                         break;
                     case 4:
                         print_usuarios();
 
                         cout << "Elige ID usuario a asignar libro: ";
                         cin >> num;
-                        asignar_libro(num);
+                        if (num > 0 and num < 21){
+                            asignar_libro(num);
+                        } else {
+                            cout << "No existe el usuario con ID " << num << "." << endl << endl;
+                        }
                         break;
 
                     case 5:
@@ -633,11 +641,16 @@ public:
 
                         cout << "Elige ID usuario a desasignar libro: ";
                         cin >> num;
-                        desasignar_libro(num);
+                        if (num > 0 and num < 21){
+                            desasignar_libro(num);
+                        } else {
+                            cout << "No existe el usuario con ID " << num << "." << endl << endl;
+                        }
                         break;
                     case 6:
                         guardar_ficheros();
                         cout << "Gracias por confiar en Bilioteca 2.0" << endl;
+                        system("pause");
                         break;
                     default:
                         cout << "Opcion incorrecta" << endl << endl;
